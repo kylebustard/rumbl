@@ -1,8 +1,8 @@
-defmodule Rumbl.Accounts.User do
+defmodule Rumbl.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Rumbl.Accounts.User
-
+  import Ecto.Query, warn: false
+  alias Rumbl.User
 
   schema "users" do
     field :name, :string
