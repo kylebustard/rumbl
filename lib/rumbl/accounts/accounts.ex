@@ -4,8 +4,8 @@ defmodule Rumbl.Accounts do
   """
 
   import Ecto.Query, warn: false
-  # alias Tiffany.Repo
+  alias Tiffany.Repo
 
-  # alias Tiffany.Accounts.User
+  alias Tiffany.Accounts.User
   
 end
