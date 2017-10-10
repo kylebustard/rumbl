@@ -13,11 +13,9 @@ defmodule Rumbl.User do
     timestamps()
   end
 
-  def changeset(%User{} = user, attrs \\ :empty) do
+  def changeset(%User{} = user, attrs \\ %{}) do
     user 
     |> cast(attrs, ~w(name username), [])
-    |> validate_required([:name, :username])
     |> validate_length(:username, min: 1, max: 20)
-    |> unique_constraint(:username)
   end
 end
