@@ -21,6 +21,8 @@ defmodule RumblWeb do
     quote do
       use Phoenix.Controller, namespace: RumblWeb
       import Plug.Conn
+      import Ecto
+      import Ecto.Query, only: [from: 1, from: 2]
       import RumblWeb.Router.Helpers
       import RumblWeb.Gettext
       import Rumbl.Auth, only: [authenticate_user: 2] #New import
