@@ -2,9 +2,10 @@ defmodule RumblWeb.CategoryController do
   use RumblWeb, :controller
 
   alias Rumbl.Category
+  alias Rumbl.Repo
 
   def index(conn, _params) do
-    categories = Cat.list_categories()
+    categories = Repo.all(Category)
     render(conn, "index.html", categories: categories)
   end
 
@@ -14,7 +15,9 @@ defmodule RumblWeb.CategoryController do
   end
 
   def create(conn, %{"category" => category_params}) do
-    case Cat.create_category(category_params) do
+    changeset = Category.changeset(category_params)
+
+    case Repo.insert(changeset) do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category created successfully.")
@@ -25,20 +28,21 @@ defmodule RumblWeb.CategoryController do
   end
 
   def show(conn, %{"id" => id}) do
-    category = Cat.get_category!(id)
+    category = Repo.get(Category, id)
     render(conn, "show.html", category: category)
   end
 
   def edit(conn, %{"id" => id}) do
-    category = Cat.get_category!(id)
-    changeset = Cat.change_category(category)
+    category = Repo.get!(Category, id)
+    changeset = Category.changeset(category)
     render(conn, "edit.html", category: category, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "category" => category_params}) do
-    category = Cat.get_category!(id)
+    category = Repo.get!(Category, id)
+    changeset = Category.changeset(category, category_params)
 
-    case Cat.update_category(category, category_params) do
+    case Repo.update(changeset) do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category updated successfully.")
@@ -49,8 +53,8 @@ defmodule RumblWeb.CategoryController do
   end
 
   def delete(conn, %{"id" => id}) do
-    category = Cat.get_category!(id)
-    {:ok, _category} = Cat.delete_category(category)
+    category = Repo.get!(Category, id)
+    Repo.delete!(category)
 
     conn
     |> put_flash(:info, "Category deleted successfully.")
