@@ -20,5 +20,6 @@ defmodule Rumbl.Video do
   def changeset(%Video{} = video, attrs \\ %{}) do
     video
     |> cast(attrs, @required_fields, @optional_fields)
+    |> assoc_constraint(:category)
   end
 end
